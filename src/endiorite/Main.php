@@ -23,6 +23,13 @@ class Main extends PluginBase {
     const DB_SESSION = "s5_Poney";
     const DB_PORT = 3306;
 
+    public static array $deviceOS = [
+        -1 => "Unknown", 1 => "Android", 2 => "IOS", 3 => "MacOS", 4 => "FireOS",
+        5 => "VRGear", 6 => "VRHololens", 7 => "Windows", 8 => "Windows", 9 => "Dedicated",
+        10 => "tvOS", 11 => "PS4", 12 => "Nintendo Switch", 13 => "Xbox",
+        20 => "Linux"
+    ];
+
     protected function onEnable(): void {
         self::$instance = $this;
         self::$mySQL = new MySQL();
@@ -32,8 +39,11 @@ class Main extends PluginBase {
         $this->getLogger()->info(
             "\n \n \n§7----- §9Endiorite  Network §7-----\n \n" .
             "§l§7  *§r §fDatabase tables created" . "\n" .
+            "§l§7  *§r §fVanilla commande disable" . "\n" .
             "\n \n"
         );
+
+        $this->getServer()->getNetwork()->setName(self::MOTD);
     }
 
     public static function getInstance(): Main{
@@ -42,6 +52,20 @@ class Main extends PluginBase {
 
     public static function getMySQL(): MySQL {
         return self::$mySQL;
+    }
+
+    private function disableCommands() {
+        $commands = $this->getServer()->getCommandMap();
+        $list = [
+            "kill", "me", "op", "deop", "enchant", "effect", "defaultgamemode",
+            "difficulty", "spawnpoint", "title", "seed", "particle", "tell", "say",
+            "gamemode"
+        ];
+        foreach($list as $cmd) {
+            $command = $commands->getCommand($cmd);
+            $command->setLabel("old_{$command->getName()}");
+            $commands->unregister($command);
+        }
     }
 
 }
