@@ -3,6 +3,7 @@
 namespace endiorite;
 
 use endiorite\database\MySQL;
+use endiorite\Listener\PlayerManager;
 use pocketmine\plugin\PluginBase;
 
 class Main extends PluginBase {
@@ -36,10 +37,18 @@ class Main extends PluginBase {
 
         self::getMySQL()->createTables();
 
+        $this->disableCommands();
+        $this->setListener();
+        $this->setCommands();
+        $this->setTasks();
+
         $this->getLogger()->info(
             "\n \n \n§7----- §9Endiorite  Network §7-----\n \n" .
             "§l§7  *§r §fDatabase tables created" . "\n" .
             "§l§7  *§r §fVanilla commande disable" . "\n" .
+            "§l§7  *§r §fRegister all events" . "\n" .
+            "§l§7  *§r §fRegister all commands" . "\n" .
+            "§l§7  *§r §fRegister all tasks" . "\n" .
             "\n \n"
         );
 
@@ -66,6 +75,23 @@ class Main extends PluginBase {
             $command->setLabel("old_{$command->getName()}");
             $commands->unregister($command);
         }
+    }
+
+    private function setListener() {
+        $list = [
+            new PlayerManager()
+        ];
+        foreach($list as $events) {
+            $this->getServer()->getPluginManager()->registerEvents($events, $this);
+        }
+    }
+
+    private function setCommands() {
+
+    }
+
+    private function setTasks() {
+
     }
 
 }
