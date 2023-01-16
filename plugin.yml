@@ -1,0 +1,9 @@
+---
+name: EndioriteLobby
+main: endiorite\lobby
+version: 1.0.0
+api: 4.0.0
+author: JblusItsMe
+description: EndioriteLobby par JblusItsMe pour Endiorite Network
+website: https://www.endiorite.fr
+...
