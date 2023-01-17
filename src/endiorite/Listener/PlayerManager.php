@@ -2,6 +2,7 @@
 
 namespace endiorite\Listener;
 
+use endiorite\form\ServeurListForm;
 use endiorite\Main;
 use endiorite\session\Account;
 use endiorite\session\Session;
@@ -13,10 +14,12 @@ use pocketmine\event\inventory\InventoryTransactionEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerExhaustEvent;
+use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\item\ItemFactory;
 use pocketmine\item\ItemIds;
+use pocketmine\network\mcpe\protocol\ToastRequestPacket;
 use pocketmine\player\GameMode;
 use pocketmine\Server;
 
@@ -74,6 +77,20 @@ class PlayerManager implements Listener {
 
     public function onFood(PlayerExhaustEvent $event) {
         $event->cancel();
+    }
+
+    protected array $cooldown = [];
+    public function onUse(PlayerItemUseEvent $event) {
+        $sender = $event->getPlayer();
+        $item = $sender->getInventory()->getItemInHand();
+        if(time() < ($this->cooldown[$sender->getId()] ?? 0)) {
+            return true;
+        } else {
+            if($item->getId() === ItemIds::COMPASS) {
+                $sender->sendForm(new ServeurListForm());
+            }
+            $this->cooldown[$sender->getId()] = time() + 2;
+        }
     }
 
 }
