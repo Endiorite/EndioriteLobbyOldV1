@@ -9,11 +9,13 @@ use pocketmine\data\bedrock\EffectIdMap;
 use pocketmine\data\bedrock\EffectIds;
 use pocketmine\entity\effect\EffectInstance;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\inventory\InventoryTransactionEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerExhaustEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\item\ItemFactory;
 use pocketmine\item\ItemIds;
 use pocketmine\player\GameMode;
 use pocketmine\Server;
@@ -41,6 +43,9 @@ class PlayerManager implements Listener {
         $sender->getInventory()->clearAll();
         $sender->getArmorInventory()->clearAll();
 
+        $sender->getInventory()->setItem(0, ItemFactory::getInstance()->get(ItemIds::COMPASS)->setCustomName("§r§fServeurs"));
+        $sender->getInventory()->setItem(8, ItemFactory::getInstance()->get(ItemIds::FEATHER)->setCustomName("§r§6Punch"));
+
         $event->setJoinMessage("§a[+] {$sender->getName()}");
     }
 
@@ -54,6 +59,13 @@ class PlayerManager implements Listener {
         $sender = $event->getPlayer();
         $event->cancel();
         $sender->sendMessage(Main::PREFIX . "§c Le chat semble être désactivé");
+    }
+
+    public function onChangeSlot(InventoryTransactionEvent $event) {
+        $sender = $event->getTransaction()->getSource();
+        if($sender->getGamemode() !== GameMode::CREATIVE()) {
+            $event->cancel();
+        }
     }
 
     public function onDamage(EntityDamageEvent $event) {
