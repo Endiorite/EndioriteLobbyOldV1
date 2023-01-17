@@ -78,7 +78,7 @@ class Main extends PluginBase {
         $list = [
             "kill", "me", "op", "deop", "enchant", "defaultgamemode",
             "difficulty", "spawnpoint", "title", "seed", "particle", "tell", "say",
-            "gamemode"
+            "gamemode", "msg"
         ];
         foreach($list as $cmd) {
             $command = $commands->getCommand($cmd);
