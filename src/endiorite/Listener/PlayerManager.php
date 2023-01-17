@@ -11,6 +11,7 @@ use pocketmine\entity\effect\EffectInstance;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
+use pocketmine\event\player\PlayerExhaustEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\item\ItemIds;
@@ -35,7 +36,7 @@ class PlayerManager implements Listener {
         $account = new Account($sender);
         $account->updateDataOnJoin();
         (new Session($sender));
-        $sender->sendMessage(Main::PREFIX . "§f Vos données sont chargées, bon jeu sur §l§6Endiorite§r§f.");
+        $sender->sendMessage(Main::PREFIX . "§f Vos données sont chargées, bon jeu sur §l§9Endiorite§r§f.");
 
         $sender->getInventory()->clearAll();
         $sender->getArmorInventory()->clearAll();
@@ -56,6 +57,10 @@ class PlayerManager implements Listener {
     }
 
     public function onDamage(EntityDamageEvent $event) {
+        $event->cancel();
+    }
+
+    public function onFood(PlayerExhaustEvent $event) {
         $event->cancel();
     }
 
