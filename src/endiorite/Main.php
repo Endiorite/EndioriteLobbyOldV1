@@ -5,6 +5,7 @@ namespace endiorite;
 use endiorite\database\MySQL;
 use endiorite\Listener\PlayerManager;
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\Config;
 
 class Main extends PluginBase {
 
@@ -63,10 +64,14 @@ class Main extends PluginBase {
         return self::$mySQL;
     }
 
+    public static function getSessionData(): Config {
+        return new Config(self::getInstance()->getDataFolder() . "data.yml");
+    }
+
     private function disableCommands() {
         $commands = $this->getServer()->getCommandMap();
         $list = [
-            "kill", "me", "op", "deop", "enchant", "effect", "defaultgamemode",
+            "kill", "me", "op", "deop", "enchant", "defaultgamemode",
             "difficulty", "spawnpoint", "title", "seed", "particle", "tell", "say",
             "gamemode"
         ];
