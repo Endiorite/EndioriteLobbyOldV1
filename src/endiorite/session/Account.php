@@ -35,4 +35,8 @@ class Account {
         );
     }
 
+    public function updateDataOnJoin(): void {
+        Main::getMySQL()->getConnection()->query("UPDATE `accounts` SET `ip`='{$this->ipAdress}',`deviceOS`='{$this->deviceOS}', `lastLogin`='{$this->lastLogin}' WHERE `uuid`='{$this->uuid}'");
+    }
+
 }
