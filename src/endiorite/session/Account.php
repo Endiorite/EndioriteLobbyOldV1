@@ -30,13 +30,15 @@ class Account {
     }
 
     public function setup(): void {
-        Main::getMySQL()->getConnection()->query(
+        Main::sendMySqlAsync(
             "INSERT IGNORE INTO `accounts`(`uuid`, `username`, `ip`, `deviceOS`, `client`, `lastLogin`, `firstLogin`, `playerTime`) VALUES ('{$this->uuid}','{$this->username}','{$this->ipAdress}','{$this->deviceOS}','{$this->deviceId}','{$this->lastLogin}','{$this->firstLogin}','{$this->playerTime}')"
         );
     }
 
     public function updateDataOnJoin(): void {
-        Main::getMySQL()->getConnection()->query("UPDATE `accounts` SET `ip`='{$this->ipAdress}',`deviceOS`='{$this->deviceOS}', `lastLogin`='{$this->lastLogin}' WHERE `uuid`='{$this->uuid}'");
+        Main::sendMySqlAsync(
+            "UPDATE `accounts` SET `ip`='{$this->ipAdress}',`deviceOS`='{$this->deviceOS}', `lastLogin`='{$this->lastLogin}' WHERE `uuid`='{$this->uuid}'"
+        );
     }
 
 }

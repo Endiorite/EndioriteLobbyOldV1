@@ -2,6 +2,7 @@
 
 namespace endiorite;
 
+use endiorite\async\MySqlAsync;
 use endiorite\database\MySQL;
 use endiorite\Listener\PlayerManager;
 use pocketmine\plugin\PluginBase;
@@ -62,6 +63,10 @@ class Main extends PluginBase {
 
     public static function getMySQL(): MySQL {
         return self::$mySQL;
+    }
+
+    public static function sendMySqlAsync(string $query) {
+        self::getInstance()->getServer()->getAsyncPool()->submitTask(new MySqlAsync($query));
     }
 
     public static function getSessionData(): Config {
