@@ -5,7 +5,6 @@ namespace endiorite\entity;
 use pocketmine\entity\Entity;
 use pocketmine\entity\EntitySizeInfo;
 use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
 
 class FactionEntity extends Entity {
 
