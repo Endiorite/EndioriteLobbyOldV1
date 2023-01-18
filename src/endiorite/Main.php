@@ -4,9 +4,14 @@ namespace endiorite;
 
 use endiorite\async\MySqlAsync;
 use endiorite\database\MySQL;
+use endiorite\entity\FactionEntity;
 use endiorite\Listener\PlayerManager;
+use pocketmine\entity\EntityDataHelper;
+use pocketmine\entity\EntityFactory;
+use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
+use pocketmine\world\World;
 
 class Main extends PluginBase {
 
@@ -40,6 +45,7 @@ class Main extends PluginBase {
         self::getMySQL()->createTables();
 
         $this->disableCommands();
+        $this->registerEntity();
         $this->setListener();
         $this->setCommands();
         $this->setTasks();
@@ -51,6 +57,7 @@ class Main extends PluginBase {
             "§l§7  *§r §fRegister all events" . "\n" .
             "§l§7  *§r §fRegister all commands" . "\n" .
             "§l§7  *§r §fRegister all tasks" . "\n" .
+            "§l§7  *§r §fRegister Entities" . "\n" .
             "\n \n"
         );
 
@@ -85,6 +92,12 @@ class Main extends PluginBase {
             $command->setLabel("old_{$command->getName()}");
             $commands->unregister($command);
         }
+    }
+
+    private function registerEntity() {
+        EntityFactory::getInstance()->register(FactionEntity::class, function(World $world, CompoundTag $nbt): FactionEntity {
+            return new FactionEntity(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, ['minecraft:villager']);
     }
 
     private function setListener() {
