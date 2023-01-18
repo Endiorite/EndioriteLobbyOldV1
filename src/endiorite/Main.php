@@ -2,6 +2,8 @@
 
 namespace endiorite;
 
+use CortexPE\Commando\exception\HookAlreadyRegistered;
+use CortexPE\Commando\PacketHooker;
 use endiorite\async\MySqlAsync;
 use endiorite\database\MySQL;
 use endiorite\entity\FactionEntity;
@@ -38,9 +40,14 @@ class Main extends PluginBase {
         20 => "Linux"
     ];
 
+    /**
+     * @throws HookAlreadyRegistered
+     */
     protected function onEnable(): void {
         self::$instance = $this;
         self::$mySQL = new MySQL();
+
+        if(!PacketHooker::isRegistered()) { PacketHooker::register($this); }
 
         self::getMySQL()->createTables();
 
@@ -52,6 +59,7 @@ class Main extends PluginBase {
 
         $this->getLogger()->info(
             "\n \n \n§7----- §9Endiorite  Network §7-----\n \n" .
+            "§l§7  *§r §fRegister CommandoAPI" . "\n" .
             "§l§7  *§r §fDatabase tables created" . "\n" .
             "§l§7  *§r §fVanilla commande disable" . "\n" .
             "§l§7  *§r §fRegister all events" . "\n" .
