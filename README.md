@@ -14,6 +14,7 @@ Système de lobby pour la version V3.5 endiorite
 Liste des API utilisés pour le lobby.
 
 `PmForm` https://github.com/dktapps-pm-pl/pmforms \
+`Commando` https://github.com/CortexPE/Commando \
 
 
 ## Utiliser pour
