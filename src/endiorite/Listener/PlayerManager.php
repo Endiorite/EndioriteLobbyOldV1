@@ -19,6 +19,7 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\item\ItemFactory;
 use pocketmine\item\ItemIds;
+use pocketmine\math\Vector3;
 use pocketmine\network\mcpe\protocol\ToastRequestPacket;
 use pocketmine\player\GameMode;
 use pocketmine\Server;
@@ -88,8 +89,16 @@ class PlayerManager implements Listener {
         } else {
             if($item->getId() === ItemIds::COMPASS) {
                 $sender->sendForm(new ServeurListForm());
+                $this->cooldown[$sender->getId()] = time() + 2;
+                return true;
             }
-            $this->cooldown[$sender->getId()] = time() + 2;
+            if($item->getId() === ItemIds::FEATHER) {
+                $direction = $sender->getDirectionPlane()->normalize()->multiply(1);
+                $sender->setMotion(new Vector3($direction->getX(), 1, $direction->getY()));
+                $this->cooldown[$sender->getId()] = time() + 1;
+                return true;
+            }
+
         }
     }
 
