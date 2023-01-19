@@ -1,9 +1,8 @@
 <?php
 
-namespace endiorite\async;
+namespace endiorite\lobby\async;
 
-use endiorite\database\MySQL;
-use endiorite\Main;
+use endiorite\lobby\database\MySQL;
 use pocketmine\scheduler\AsyncTask;
 
 class MySqlAsync extends AsyncTask {

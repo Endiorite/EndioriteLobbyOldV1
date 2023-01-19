@@ -1,14 +1,11 @@
 <?php
 
-namespace endiorite\Listener;
+namespace endiorite\lobby\Listener;
 
-use endiorite\form\ServeurListForm;
-use endiorite\Main;
-use endiorite\session\Account;
-use endiorite\session\Session;
-use pocketmine\data\bedrock\EffectIdMap;
-use pocketmine\data\bedrock\EffectIds;
-use pocketmine\entity\effect\EffectInstance;
+use endiorite\lobby\form\ServeurListForm;
+use endiorite\lobby\Main;
+use endiorite\lobby\session\Account;
+use endiorite\lobby\session\Session;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\inventory\InventoryTransactionEvent;
 use pocketmine\event\Listener;
@@ -20,7 +17,6 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\item\ItemFactory;
 use pocketmine\item\ItemIds;
 use pocketmine\math\Vector3;
-use pocketmine\network\mcpe\protocol\ToastRequestPacket;
 use pocketmine\player\GameMode;
 use pocketmine\Server;
 

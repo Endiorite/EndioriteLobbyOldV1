@@ -1,6 +1,6 @@
 <?php
 
-namespace endiorite\form;
+namespace endiorite\lobby\form;
 
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;

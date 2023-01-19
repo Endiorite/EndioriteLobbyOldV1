@@ -1,8 +1,8 @@
 <?php
 
-namespace endiorite\session;
+namespace endiorite\lobby\session;
 
-use endiorite\Main;
+use endiorite\lobby\Main;
 use pocketmine\player\Player;
 use pocketmine\utils\Config;
 

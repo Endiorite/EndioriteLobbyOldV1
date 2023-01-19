@@ -35,6 +35,7 @@ use CortexPE\Commando\traits\ArgumentableTrait;
 use CortexPE\Commando\traits\IArgumentable;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\Plugin;
+use InvalidArgumentException;
 use function explode;
 
 abstract class BaseSubCommand implements IArgumentable, IRunnable {

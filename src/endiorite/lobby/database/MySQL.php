@@ -1,8 +1,8 @@
 <?php
 
-namespace endiorite\database;
+namespace endiorite\lobby\database;
 
-use endiorite\Main;
+use endiorite\lobby\Main;
 
 class MySQL {
 
