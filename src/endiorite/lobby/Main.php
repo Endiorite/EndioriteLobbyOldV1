@@ -11,6 +11,7 @@ use endiorite\lobby\entity\FactionEntity;
 use endiorite\lobby\Listener\PlayerManager;
 use pocketmine\entity\EntityDataHelper;
 use pocketmine\entity\EntityFactory;
+use pocketmine\entity\Human;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
