@@ -4,6 +4,7 @@ namespace endiorite\lobby\Listener;
 
 use endiorite\lobby\form\ServeurListForm;
 use endiorite\lobby\Main;
+use endiorite\lobby\particles\FloatingText;
 use endiorite\lobby\session\Account;
 use endiorite\lobby\session\Session;
 use pocketmine\event\entity\EntityDamageEvent;
@@ -45,6 +46,19 @@ class PlayerManager implements Listener {
 
         $sender->getInventory()->setItem(0, ItemFactory::getInstance()->get(ItemIds::COMPASS)->setCustomName("§r§fServeurs"));
         $sender->getInventory()->setItem(8, ItemFactory::getInstance()->get(ItemIds::FEATHER)->setCustomName("§r§6Punch"));
+
+        (new FloatingText(
+            $sender,
+            -145.5,
+            79.5,
+            -76.5,
+            Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld(),
+            "§7" . "-----------" . "\n" .
+                 "§l§9" . "Bienvenue sur Endiorite§r" . "\n \n" .
+                 "§f" . "Vous êtes actuellement sur le lobby." . "\n" .
+                 "§f" . "Frappe un NPC pour rejoindre un serveur." . "\n" .
+                 "§7" . "-----------"
+        ));
 
         $event->setJoinMessage("§a[+] {$sender->getName()}");
     }
