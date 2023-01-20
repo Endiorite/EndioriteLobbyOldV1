@@ -6,6 +6,7 @@ use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\BaseSubCommand;
 use CortexPE\Commando\exception\ArgumentOrderException;
 use endiorite\lobby\commands\npc\lists\npcFaction;
+use endiorite\lobby\commands\npc\lists\npcPractice;
 use pocketmine\command\CommandSender;
 use pocketmine\permission\DefaultPermissionNames;
 
@@ -23,6 +24,9 @@ class npcRemoveCMD extends BaseSubCommand {
         $args = $args["nom"];
         if($args === "faction") {
             (new npcFaction($sender, false));
+        }
+        if($args === "practice") {
+            (new npcPractice($sender, false));
         }
     }
 

@@ -8,6 +8,7 @@ use endiorite\lobby\async\MySqlAsync;
 use endiorite\lobby\commands\npc\npcCMD;
 use endiorite\lobby\database\MySQL;
 use endiorite\lobby\entity\FactionEntity;
+use endiorite\lobby\entity\PracticeEntity;
 use endiorite\lobby\Listener\PlayerManager;
 use pocketmine\entity\EntityDataHelper;
 use pocketmine\entity\EntityFactory;
@@ -116,6 +117,9 @@ class Main extends PluginBase {
         EntityFactory::getInstance()->register(FactionEntity::class, function(World $world, CompoundTag $nbt): FactionEntity {
             return new FactionEntity(EntityDataHelper::parseLocation($nbt, $world), $nbt);
         }, ['minecraft:villager']);
+        EntityFactory::getInstance()->register(PracticeEntity::class, function(World $world, CompoundTag $nbt): PracticeEntity {
+            return new PracticeEntity(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, ['minecraft:blaze']);
     }
 
     private function setListener() {
