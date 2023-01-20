@@ -95,7 +95,7 @@ class Main extends PluginBase {
 
     private function lockTime() {
         $world = $this->getServer()->getWorldManager()->getDefaultWorld();
-        $world->setTime(World::TIME_DAY);
+        $world->setTime(World::TIME_MIDNIGHT);
         $world->stopTime();
     }
 
@@ -104,7 +104,7 @@ class Main extends PluginBase {
         $list = [
             "kill", "me", "op", "deop", "enchant", "defaultgamemode",
             "difficulty", "spawnpoint", "title", "seed", "particle", "tell", "say",
-            "gamemode"
+            "gamemode", "time"
         ];
         foreach($list as $cmd) {
             $command = $commands->getCommand($cmd);
