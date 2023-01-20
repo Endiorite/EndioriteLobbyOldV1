@@ -58,6 +58,7 @@ class Main extends PluginBase {
         $this->setListener();
         $this->setCommands();
         $this->setTasks();
+        $this->lockTime();
 
         $this->getLogger()->info(
             "\n \n \n§7----- §9Endiorite  Network §7-----\n \n" .
@@ -68,6 +69,7 @@ class Main extends PluginBase {
             "§l§7  *§r §fRegister all commands" . "\n" .
             "§l§7  *§r §fRegister all tasks" . "\n" .
             "§l§7  *§r §fRegister Entities" . "\n" .
+            "§l§7  *§r §fWorlds time locked" . "\n" .
             "\n \n"
         );
 
@@ -88,6 +90,12 @@ class Main extends PluginBase {
 
     public static function getSessionData(): Config {
         return new Config(self::getInstance()->getDataFolder() . "data.yml");
+    }
+
+    private function lockTime() {
+        $world = $this->getServer()->getWorldManager()->getDefaultWorld();
+        $world->setTime(World::TIME_DAY);
+        $world->stopTime();
     }
 
     private function disableCommands() {
