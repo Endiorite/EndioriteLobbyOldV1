@@ -98,7 +98,8 @@ class PlayerManager implements Listener {
             return true;
         } else {
             if($item->getId() === ItemIds::COMPASS) {
-                $sender->sendForm(new ServeurListForm());
+                (new ServeurListForm($sender));
+                //$sender->sendForm(new ServeurListForm());
                 $this->cooldown[$sender->getId()] = time() + 2;
                 return true;
             }
