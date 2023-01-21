@@ -10,18 +10,25 @@ use endiorite\lobby\database\MySQL;
 use endiorite\lobby\entity\FactionEntity;
 use endiorite\lobby\entity\PracticeEntity;
 use endiorite\lobby\Listener\PlayerManager;
+use packs\ContentFactory;
+use packs\PluginContent;
+use packs\ResourceManager;
+use packs\ResourcePackGenerator;
 use pocketmine\entity\EntityDataHelper;
 use pocketmine\entity\EntityFactory;
 use pocketmine\entity\Human;
 use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\world\World;
+use ref\libNpcDialogue\libNpcDialogue;
 
 class Main extends PluginBase {
 
     protected static Main $instance;
     protected static MySQL $mySQL;
+    protected ResourceManager $resourceManager;
 
     const PREFIX = "§l§9Endiorite §r§7»";
     const MOTD = "§l§9Endiorite §f[1.19.50]";
@@ -43,6 +50,14 @@ class Main extends PluginBase {
         20 => "Linux"
     ];
 
+    protected function onLoad(): void {
+        $this->resourceManager = new ResourceManager();
+        ContentFactory::setFactory(fn(Plugin $plugin) => new PluginContent(
+            $plugin,
+            $this->resourceManager->fromPlugin($plugin)
+        ));
+    }
+
     /**
      * @throws HookAlreadyRegistered
      */
@@ -51,6 +66,7 @@ class Main extends PluginBase {
         self::$mySQL = new MySQL();
 
         if(!PacketHooker::isRegistered()) { PacketHooker::register($this); }
+        if(!libNpcDialogue::isRegistered()) { libNpcDialogue::register($this); }
 
         self::getMySQL()->createTables();
 
@@ -60,6 +76,7 @@ class Main extends PluginBase {
         $this->setCommands();
         $this->setTasks();
         $this->lockTime();
+        $this->packLoader();
 
         $this->getLogger()->info(
             "\n \n \n§7----- §9Endiorite  Network §7-----\n \n" .
@@ -71,6 +88,7 @@ class Main extends PluginBase {
             "§l§7  *§r §fRegister all tasks" . "\n" .
             "§l§7  *§r §fRegister Entities" . "\n" .
             "§l§7  *§r §fWorlds time locked" . "\n" .
+            "§l§7  *§r §fTexture pack interne" . "\n" .
             "\n \n"
         );
 
@@ -95,7 +113,7 @@ class Main extends PluginBase {
 
     private function lockTime() {
         $world = $this->getServer()->getWorldManager()->getDefaultWorld();
-        $world->setTime(World::TIME_MIDNIGHT);
+        $world->setTime(World::TIME_DAY);
         $world->stopTime();
     }
 
@@ -111,6 +129,34 @@ class Main extends PluginBase {
             $command->setLabel("old_{$command->getName()}");
             $commands->unregister($command);
         }
+    }
+
+    private function packLoader() {
+        $contents = ContentFactory::getAndLock();
+        $generator = new ResourcePackGenerator($this->getDataFolder() . "endiorite-lobby.zip", $this->getServer()->getMotd());
+        $this->resourceManager->inject($generator, $contents);
+        $pack = $generator->generate();
+
+        $manager = $this->getServer()->getResourcePackManager();
+        $reflection = new \ReflectionClass($manager);
+
+        $packsProperty = $reflection->getProperty("resourcePacks");
+        $packsProperty->setAccessible(true);
+
+        $currentResourcePacks = $packsProperty->getValue($manager);
+        $uuidProperty = $reflection->getProperty("uuidList");
+        $uuidProperty->setAccessible(true);
+
+        $currentUUIDPacks = $uuidProperty->getValue($manager);
+
+        $property = $reflection->getProperty("serverForceResources");
+        $property->setAccessible(true);
+        $property->setValue($manager, true);
+
+        $currentUUIDPacks[strtolower($pack->getPackId())] = $currentResourcePacks[] = $pack;
+
+        $packsProperty->setValue($manager, $currentResourcePacks);
+        $uuidProperty->setValue($manager, $currentUUIDPacks);
     }
 
     private function registerEntity() {
