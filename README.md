@@ -15,6 +15,7 @@ Liste des API utilisés pour le lobby.
 
 `PmForm` https://github.com/dktapps-pm-pl/pmforms \
 `Commando` https://github.com/CortexPE/Commando \
+`LibNpcDialogue` https://github.com/DaisukeDaisukeTeam/libNpcDialogue \
 
 
 ## Utiliser pour
