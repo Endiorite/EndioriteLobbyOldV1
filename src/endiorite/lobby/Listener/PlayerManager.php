@@ -2,6 +2,7 @@
 
 namespace endiorite\lobby\Listener;
 
+use endiorite\lobby\async\ScoreboardAsync;
 use endiorite\lobby\form\ServeurListForm;
 use endiorite\lobby\Main;
 use endiorite\lobby\particles\FloatingText;
@@ -40,6 +41,14 @@ class PlayerManager implements Listener {
         $account->updateDataOnJoin();
         (new Session($sender));
         $sender->sendMessage(Main::PREFIX . "§f Vos données sont chargées, bon jeu sur §l§9Endiorite§r§f.");
+
+        $scoreboardApi = Main::getScoreboardAPI();
+        $scoreboardApi->new($sender, "ObjectiveName", "Endiorite Network");
+        $scoreboardApi->setLine($sender, 1, "§c  ");
+        $scoreboardApi->setLine($sender, 2, "§l§7»§r §3{$sender->getName()}");
+        $scoreboardApi->setLine($sender, 3, "§f Grade: §6{rank.name}");
+        $scoreboardApi->setLine($sender, 4, "§f ");
+        $scoreboardApi->setLine($sender, 5, "§bplay.endiorite.com");
 
         $sender->getInventory()->clearAll();
         $sender->getArmorInventory()->clearAll();
