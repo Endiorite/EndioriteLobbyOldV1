@@ -9,8 +9,10 @@ use Ramsey\Uuid\Uuid;
 
 class ResourcePackGenerator implements IPackSupplier {
 
-    private const UUID_PACK_NAMESPACE = "21c23023-26e8-94d0-afb9-826af56220a1";
-    private const UUID_RESOURCE_NAMESPACE = "6ccc0e32-0252-4ad5-be00-afe609d9402c";
+    private const UUID_PACK_NAMESPACE = "3d9f34c3-279b-4c63-9685-d68a70d632fe";
+    private const UUID_RESOURCE_NAMESPACE = "989a36f8-c036-4cd2-a990-deecacea6382";
+
+    protected string $pathFolder = "/plugins/EndioriteLobby/packs/";
 
     private \ZipArchive $archive;
     private string $checkSumSource = "";
@@ -19,11 +21,25 @@ class ResourcePackGenerator implements IPackSupplier {
         @unlink($this->path);
         $this->archive = new \ZipArchive();
         $this->archive->open($this->path, \ZipArchive::CREATE);
-        $this->archive->addEmptyDir("font");
-        $this->archive->addFile(
-            Server::getInstance()->getDataPath() . "packFile/glyph_E0.png",
-            "font/glyph_E0.png"
-        );
+        foreach([
+            "font",
+            "ui",
+            "textures",
+            "textures/ui"
+                ] as $folder) {
+            $this->archive->addEmptyDir($folder);
+        }
+        foreach([
+            "font/glyph_E5.png",
+            "ui/npc_interact_screen.json",
+            "textures/ui/banner.png",
+            "textures/ui/dialogue_background.png"
+                ] as $file) {
+            $this->archive->addFile(
+                Server::getInstance()->getDataPath() . $this->pathFolder . $file,
+                $file
+            );
+        }
     }
 
     public function addFile(string $inPack, string $path): void {
@@ -47,9 +63,9 @@ class ResourcePackGenerator implements IPackSupplier {
         $this->addFromString("manifest.json", JsonSerializer::serialize([
             'format_version' => 2,
             'header' => [
-                'name' => 'NoLook Pack for ' . $this->name,
+                'name' => 'EndioriteLobby Pack for ' . $this->name,
                 'uuid' => Uuid::uuid3(self::UUID_PACK_NAMESPACE, $this->checkSumSource)->toString(),
-                'description' => 'NoLook by JblusItsMe',
+                'description' => 'EndioriteLobby by JblusItsMe',
                 'version' => [1, 0, 0],
                 'min_engine_version' => [1, 16, 0],
                 'author' => 'JblusItsMe#0001'

@@ -38,7 +38,9 @@ class ServeurListForm {
             })
             ->setForceCloseOnClick(true)
         );
-        $ui->setNpcName("Nos serveurs");
+        //           N       O       S                 S         E        R      V       E       U       R
+        $text = "\u{E5E0}\u{E5E1}\u{E5E5}" . " " . "\u{E5E5}\u{E5D4}\u{E5E4}\u{E5E8}\u{E5D4}\u{E5E7}\u{E5E4}";
+        $ui->setNpcName("$text");
         $ui->setDialogueBody("test body");
         $ui->setSceneName("test");
         try {

@@ -5,6 +5,7 @@ namespace endiorite\lobby;
 use CortexPE\Commando\exception\HookAlreadyRegistered;
 use CortexPE\Commando\PacketHooker;
 use endiorite\lobby\async\MySqlAsync;
+use endiorite\lobby\commands\gamemode\gamemodeCMD;
 use endiorite\lobby\commands\npc\npcCMD;
 use endiorite\lobby\database\MySQL;
 use endiorite\lobby\entity\FactionEntity;
@@ -179,7 +180,8 @@ class Main extends PluginBase {
 
     private function setCommands() {
         $this->getServer()->getCommandMap()->registerAll("endioritelobby", [
-            new npcCMD($this, "npc", "Endiorite NPC", [])
+            new npcCMD($this, "npc", "Endiorite NPC", []),
+            new gamemodeCMD($this, "gamemode", "Endiorite Gamemode", ["gm"])
         ]);
     }
 
