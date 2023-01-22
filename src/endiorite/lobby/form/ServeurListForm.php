@@ -41,7 +41,11 @@ class ServeurListForm {
         //           N       O       S                 S         E        R      V       E       U       R
         $text = "\u{E5E0}\u{E5E1}\u{E5E5}" . " " . "\u{E5E5}\u{E5D4}\u{E5E4}\u{E5E8}\u{E5D4}\u{E5E7}\u{E5E4}";
         $ui->setNpcName("$text");
-        $ui->setDialogueBody("test body");
+        $ui->setDialogueBody(
+            "Bienvenue sur notre plateforme de sélection de serveur. Veuillez sélectionner un serveur pour vous y téléporter." .
+            "\n \n" .
+            "Nous espérons que vous apprécierez votre expérience de jeu sur Endiorite."
+        );
         $ui->setSceneName("test");
         try {
             $ui->sendTo($sender);
