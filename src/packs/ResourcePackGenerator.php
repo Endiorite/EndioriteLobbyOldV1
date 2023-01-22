@@ -9,8 +9,8 @@ use Ramsey\Uuid\Uuid;
 
 class ResourcePackGenerator implements IPackSupplier {
 
-    private const UUID_PACK_NAMESPACE = "3d9f34c3-279b-4c63-9685-d68a70d632fe";
-    private const UUID_RESOURCE_NAMESPACE = "989a36f8-c036-4cd2-a990-deecacea6382";
+    private const UUID_PACK_NAMESPACE = "3c9f34c3-279b-4c63-9685-d68a70d632fe";
+    private const UUID_RESOURCE_NAMESPACE = "389a36f8-c036-4cd2-a990-deecacea6382";
 
     protected string $pathFolder = "/plugins/EndioriteLobby/packs/";
 
@@ -32,7 +32,10 @@ class ResourcePackGenerator implements IPackSupplier {
         foreach([
             "font/glyph_E5.png",
             "ui/npc_interact_screen.json",
+            "ui/scoreboard.json",
             "textures/ui/banner.png",
+            "textures/ui/Black_sb.png",
+            "textures/ui/Black_sb.json",
             "textures/ui/dialogue_background.png"
                 ] as $file) {
             $this->archive->addFile(
