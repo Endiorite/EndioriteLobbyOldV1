@@ -4,6 +4,7 @@ namespace endiorite\lobby;
 
 use CortexPE\Commando\exception\HookAlreadyRegistered;
 use CortexPE\Commando\PacketHooker;
+use endiorite\lobby\api\ScoreboardAPI;
 use endiorite\lobby\async\MySqlAsync;
 use endiorite\lobby\commands\gamemode\gamemodeCMD;
 use endiorite\lobby\commands\npc\npcCMD;
@@ -30,6 +31,7 @@ class Main extends PluginBase {
     protected static Main $instance;
     protected static MySQL $mySQL;
     protected ResourceManager $resourceManager;
+    protected static ScoreboardAPI $scoreboardAPI;
 
     const PREFIX = "§l§9Endiorite §r§7»";
     const MOTD = "§l§9Endiorite §f[1.19.50]";
@@ -65,6 +67,7 @@ class Main extends PluginBase {
     protected function onEnable(): void {
         self::$instance = $this;
         self::$mySQL = new MySQL();
+        self::$scoreboardAPI = new ScoreboardAPI();
 
         if(!PacketHooker::isRegistered()) { PacketHooker::register($this); }
         if(!libNpcDialogue::isRegistered()) { libNpcDialogue::register($this); }
@@ -102,6 +105,10 @@ class Main extends PluginBase {
 
     public static function getMySQL(): MySQL {
         return self::$mySQL;
+    }
+
+    public static function getScoreboardAPI(): ScoreboardAPI {
+        return self::$scoreboardAPI;
     }
 
     public static function sendMySqlAsync(string $query) {
